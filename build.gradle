@@ -25,6 +25,9 @@ dependencies {
 
 	implementation 'org.slf4j:slf4j-api:2.1.0-alpha1'
 
+	compileOnly 'org.projectlombok:lombok:1.18.36';
+	annotationProcessor 'org.projectlombok:lombok:1.18.36';
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

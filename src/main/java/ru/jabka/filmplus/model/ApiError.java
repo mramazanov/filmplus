@@ -1,5 +1,8 @@
 package ru.jabka.filmplus.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ApiError {
 
     private boolean success;
@@ -11,10 +14,10 @@ public class ApiError {
     }
 
     public boolean isSuccess() {
-        return success;
+        return this.success;
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 }
