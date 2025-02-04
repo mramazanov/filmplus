@@ -21,16 +21,18 @@ public class FilmService {
     public FilmResponse filmCreate(final FilmRequest film) {
         validateFilm.validateFilm(film);
         List<String> reviews = new ArrayList<>();
-        FilmResponse filmResponse = new FilmResponse(
-                (long) films.size() + 1,
-                film.getName(),
-                film.getDescription(),
-                film.getReleaseDate(),
-                film.getDuration(),
-                film.getGenres(),
-                reviews,
-                0
-        );
+
+        FilmResponse filmResponse = FilmResponse.builder()
+                .id((long) films.size() + 1)
+                .name(film.getName())
+                .description(film.getDescription())
+                .releaseDate(film.getReleaseDate())
+                .duration(film.getDuration())
+                .genres(film.getGenres())
+                .reviews(reviews)
+                .likes(0)
+                .build();
+
         films.add(filmResponse);
         return filmResponse;
     }
@@ -42,9 +44,9 @@ public class FilmService {
                 .orElseThrow(() -> new BadRequestException(String.format("Не удалось найти фильм по id = %d", id)));
     }
 
-    public FilmResponse update(final FilmRequest film) {
+    public FilmResponse update(final long filmId, final FilmRequest film) {
         validateFilm.validateFilm(film);
-        FilmResponse foundFilm = getFilmByid(film.getId());
+        FilmResponse foundFilm = getFilmByid(filmId);
         if (foundFilm == null) {
             return null;
         }

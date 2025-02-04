@@ -1,8 +1,5 @@
 package ru.jabka.filmplus.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ApiError {
 
     private boolean success;

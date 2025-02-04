@@ -1,6 +1,7 @@
 package ru.jabka.filmplus.model.film;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class FilmResponse {

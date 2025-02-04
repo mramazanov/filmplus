@@ -36,8 +36,8 @@ public class UserController {
 
     @PatchMapping
     @Operation(summary = "Обновление пользователя")
-    public UserResponse updateUser(@RequestBody final UserRequest user) {
-        return userService.update(user);
+    public UserResponse updateUser(@RequestParam final long userId, @RequestBody final UserRequest user) {
+        return userService.update(userId,user);
     }
 
     @DeleteMapping("/{id}")

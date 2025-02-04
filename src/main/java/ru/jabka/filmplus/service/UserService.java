@@ -15,7 +15,6 @@ public class UserService {
 
     public static HashSet<UserResponse> users = new HashSet<>();
     private final ValidateUser validateUser;
-    private final FilmService filmService;
 
     public UserResponse userCreate(final UserRequest requestUser) {
         validateUser.validate(requestUser);
@@ -38,9 +37,9 @@ public class UserService {
                 .orElseThrow(() -> new BadRequestException(String.format("Не удалось найти пользователя с id %d", id)));
     }
 
-    public UserResponse update(final UserRequest user) {
+    public UserResponse update(final long userId, final UserRequest user) {
         validateUser.validate(user);
-        UserResponse existUser = getUserById(user.getId());
+        UserResponse existUser = getUserById(userId);
         if (existUser == null) {
             return null;
         }

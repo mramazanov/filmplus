@@ -3,7 +3,7 @@ package ru.jabka.filmplus.Validators.FilmValidators;
 import org.springframework.stereotype.Component;
 import ru.jabka.filmplus.exception.BadRequestException;
 import ru.jabka.filmplus.model.film.FilmRequest;
-import ru.jabka.filmplus.model.Genries;
+import ru.jabka.filmplus.model.Genre;
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ class FilmGenreValidator implements FilmValidator {
         }
 
         film.getGenres().forEach(fg -> {
-            Arrays.stream(Genries.values())
+            Arrays.stream(Genre.values())
                     .filter(g -> fg.equalsIgnoreCase(g.toString()))
                     .findFirst()
                     .orElseThrow(() -> new BadRequestException("Указанные жанр(ы) фильма не найдены"));

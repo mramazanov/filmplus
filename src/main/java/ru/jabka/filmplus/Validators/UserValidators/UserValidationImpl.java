@@ -8,12 +8,12 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class UserValidationImpl implements ValidateUser {
+class UserValidationImpl implements ValidateUser {
 
     private final List<UserValidator> userValidators;
 
     @Override
     public void validate(UserRequest user) {
-        userValidators.stream().forEach(validator -> validator.validate(user));
+        userValidators.forEach(validator -> validator.validate(user));
     }
 }

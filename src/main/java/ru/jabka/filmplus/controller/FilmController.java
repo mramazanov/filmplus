@@ -32,8 +32,8 @@ public class FilmController {
 
     @PatchMapping
     @Operation(summary = "Обновление фильма")
-    public FilmResponse updateFilm(@RequestBody final FilmRequest film) {
-        return filmService.update(film);
+    public FilmResponse updateFilm(@RequestParam final long userId, @RequestBody final FilmRequest film) {
+        return filmService.update(userId, film);
     }
 
     @DeleteMapping("/{id}")
