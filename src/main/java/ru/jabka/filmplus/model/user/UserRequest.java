@@ -1,16 +1,12 @@
 package ru.jabka.filmplus.model.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
+@Data
 public class UserRequest {
     private String name;
     private String email;

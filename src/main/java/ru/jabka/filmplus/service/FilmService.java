@@ -2,25 +2,23 @@ package ru.jabka.filmplus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ru.jabka.filmplus.exception.BadRequestException;
+import ru.jabka.filmplus.model.Genre;
 import ru.jabka.filmplus.model.film.FilmRequest;
-import ru.jabka.filmplus.Validators.FilmValidators.ValidateFilm;
 import ru.jabka.filmplus.model.film.FilmResponse;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class FilmService {
 
     private static HashSet<FilmResponse> films = new HashSet<>();
-    private final ValidateFilm validateFilm;
 
     public FilmResponse filmCreate(final FilmRequest film) {
-        validateFilm.validateFilm(film);
-        List<String> reviews = new ArrayList<>();
+        validate(film);
 
         FilmResponse filmResponse = FilmResponse.builder()
                 .id((long) films.size() + 1)
@@ -29,7 +27,7 @@ public class FilmService {
                 .releaseDate(film.getReleaseDate())
                 .duration(film.getDuration())
                 .genres(film.getGenres())
-                .reviews(reviews)
+                .reviews(new ArrayList<>())
                 .likes(0)
                 .build();
 
@@ -37,19 +35,16 @@ public class FilmService {
         return filmResponse;
     }
 
-    public FilmResponse getFilmByid(long id) {
+    public FilmResponse getFilmByid(Long id) {
         return films.stream()
-                .filter(f -> f.getId() == id)
+                .filter(f -> Objects.equals(f.getId(), id))
                 .findFirst()
                 .orElseThrow(() -> new BadRequestException(String.format("Не удалось найти фильм по id = %d", id)));
     }
 
     public FilmResponse update(final long filmId, final FilmRequest film) {
-        validateFilm.validateFilm(film);
+        validate(film);
         FilmResponse foundFilm = getFilmByid(filmId);
-        if (foundFilm == null) {
-            return null;
-        }
         foundFilm.setDescription(film.getDescription());
         foundFilm.setName(film.getName());
         foundFilm.setGenres(film.getGenres());
@@ -63,28 +58,32 @@ public class FilmService {
         films.remove(foundFilm);
     }
 
-    public FilmResponse findFilmByName(final String name) {
-        return films.stream().filter(f -> f.getName()
-                .equals(name))
-                .findFirst()
-                .orElseThrow(() -> new BadRequestException(String.format("Не удалось найти фильм по name = %s", name)));
+    public Set<FilmResponse> findFilmByName(final String name, final String description, final Genre genre) {
+        return films.stream().filter(
+                f -> f.getName().contains(name)
+                || ((description != null) && f.getDescription().contains(description))
+                || f.getGenres().equals(genre)
+                ).collect(Collectors.toSet());
     }
 
-    public FilmResponse addLike(final int idFilm) {
-        FilmResponse film = getFilmByid(idFilm);
-        if(film == null) {
-            return null;
+    private void validate(FilmRequest filmRequest) {
+        if (filmRequest == null) {
+            throw new BadRequestException("Введите информацию о фильме");
         }
-        film.setLikes(film.getLikes() + 1);
-        return film;
-    }
-
-    public FilmResponse addReview(final int id, final String review) {
-        FilmResponse film = getFilmByid(id);
-        if(film == null) {
-            return null;
+        if (!StringUtils.hasText(filmRequest.getName())) {
+            throw new BadRequestException("Введите имя фильма");
         }
-        film.getReviews().add(review);
-        return film;
+        if (!StringUtils.hasText(filmRequest.getDescription())) {
+            throw new BadRequestException("Введите описание для фильма");
+        }
+        if (filmRequest.getReleaseDate() == null) {
+            throw new BadRequestException("Введите корректную дату выхода фильма");
+        }
+        if (filmRequest.getDuration() == 0 || filmRequest.getDuration() < 0) {
+            throw new BadRequestException("Введите информацию о длительности фильма");
+        }
+        if (filmRequest.getGenres() == null) {
+            throw new BadRequestException("Введите информацию о жанре фильма");
+        }
     }
 }
