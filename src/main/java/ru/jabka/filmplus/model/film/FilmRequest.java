@@ -5,13 +5,12 @@ import ru.jabka.filmplus.model.Genre;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
 @Builder
 @Data
 public class FilmRequest {
-    private String name;
-    private String description;
-    private LocalDate releaseDate;
-    private long duration;
-    private Genre genres;
+    private final String name;
+    private final String description;
+    private final LocalDate releaseDate;
+    private final Long duration;
+    private final Genre genres;
 }

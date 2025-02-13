@@ -1,6 +1,8 @@
 package ru.jabka.filmplus.model.user;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.Set;

@@ -1,6 +1,7 @@
 package ru.jabka.filmplus.service;
 
 import org.springframework.stereotype.Service;
+
 import ru.jabka.filmplus.model.user.UserResponse;
 import ru.jabka.filmplus.model.userfriend.Userfriend;
 

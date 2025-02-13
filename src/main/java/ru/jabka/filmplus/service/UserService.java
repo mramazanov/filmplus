@@ -1,8 +1,10 @@
 package ru.jabka.filmplus.service;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
 import ru.jabka.filmplus.exception.BadRequestException;
 import ru.jabka.filmplus.model.user.UserRequest;
 import ru.jabka.filmplus.model.user.UserResponse;

@@ -1,14 +1,19 @@
 package ru.jabka.filmplus.service;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
 import ru.jabka.filmplus.exception.BadRequestException;
 import ru.jabka.filmplus.model.Genre;
 import ru.jabka.filmplus.model.film.FilmRequest;
 import ru.jabka.filmplus.model.film.FilmResponse;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +33,6 @@ public class FilmService {
                 .duration(film.getDuration())
                 .genres(film.getGenres())
                 .reviews(new ArrayList<>())
-                .likes(0)
                 .build();
 
         films.add(filmResponse);
@@ -58,7 +62,7 @@ public class FilmService {
         films.remove(foundFilm);
     }
 
-    public Set<FilmResponse> findFilmByName(final String name, final String description, final Genre genre) {
+    public Set<FilmResponse> search(final String name, final String description, final Genre genre) {
         return films.stream().filter(
                 f -> f.getName().contains(name)
                 || ((description != null) && f.getDescription().contains(description))

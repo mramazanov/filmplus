@@ -14,8 +14,7 @@ public class FilmResponse {
     private String name;
     private String description;
     private LocalDate releaseDate;
-    private long duration;
+    private Long duration;
     private Genre genres;
     private List<String> reviews;
-    private int likes;
 }
