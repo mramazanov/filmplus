@@ -1,13 +1,11 @@
 package ru.jabka.filmplus.model.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.Set;
 
-@AllArgsConstructor
 @Builder
 @Data
 public class UserResponse {

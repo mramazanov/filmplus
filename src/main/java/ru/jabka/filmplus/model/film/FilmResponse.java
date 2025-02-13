@@ -1,12 +1,14 @@
 package ru.jabka.filmplus.model.film;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+
 import ru.jabka.filmplus.model.Genre;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@AllArgsConstructor
+
 @Builder
 @Data
 public class FilmResponse {
@@ -15,6 +17,6 @@ public class FilmResponse {
     private String description;
     private LocalDate releaseDate;
     private Long duration;
-    private Genre genres;
+    private List<Genre> genres;
     private List<String> reviews;
 }

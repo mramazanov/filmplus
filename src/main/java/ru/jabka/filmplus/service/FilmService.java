@@ -31,7 +31,7 @@ public class FilmService {
                 .description(film.getDescription())
                 .releaseDate(film.getReleaseDate())
                 .duration(film.getDuration())
-                .genres(film.getGenres())
+                .genres(film.getGenre())
                 .reviews(new ArrayList<>())
                 .build();
 
@@ -51,7 +51,7 @@ public class FilmService {
         FilmResponse foundFilm = getFilmByid(filmId);
         foundFilm.setDescription(film.getDescription());
         foundFilm.setName(film.getName());
-        foundFilm.setGenres(film.getGenres());
+        foundFilm.setGenres(film.getGenre());
         foundFilm.setDuration(film.getDuration());
         foundFilm.setReleaseDate(film.getReleaseDate());
         return foundFilm;
@@ -66,7 +66,7 @@ public class FilmService {
         return films.stream().filter(
                 f -> f.getName().contains(name)
                 || ((description != null) && f.getDescription().contains(description))
-                || f.getGenres().equals(genre)
+                || f.getGenres().contains(genre)
                 ).collect(Collectors.toSet());
     }
 
@@ -86,7 +86,7 @@ public class FilmService {
         if (filmRequest.getDuration() == 0 || filmRequest.getDuration() < 0) {
             throw new BadRequestException("Введите информацию о длительности фильма");
         }
-        if (filmRequest.getGenres() == null) {
+        if (filmRequest.getGenre() == null) {
             throw new BadRequestException("Введите информацию о жанре фильма");
         }
     }

@@ -13,7 +13,7 @@ import ru.jabka.filmplus.model.review.ReviewResponse;
 import ru.jabka.filmplus.service.FilmReviewService;
 
 @RestController
-@RequestMapping("api/v1//review")
+@RequestMapping("api/v1/review")
 @Tag(name = "Отзывы")
 public class FilmReviewController {
 
