@@ -2,8 +2,20 @@ package ru.jabka.filmplus.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-import ru.jabka.filmplus.model.User;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import ru.jabka.filmplus.model.user.UserRequest;
+import ru.jabka.filmplus.model.user.UserResponse;
+import ru.jabka.filmplus.service.FilmService;
 import ru.jabka.filmplus.service.UserService;
 
 @RestController
@@ -12,34 +24,34 @@ import ru.jabka.filmplus.service.UserService;
 public class UserController {
 
     private final UserService userService;
+    private final FilmService filmService;
 
-
-    public UserController(UserService userService) {
+    public UserController(UserService userService, FilmService filmService) {
         this.userService = userService;
+        this.filmService = filmService;
     }
 
-    @PostMapping()
+    @PostMapping
     @Operation(summary = "Создать пользователя")
-    public User createUser(@RequestBody final User user) {
+    public UserResponse createUser(@RequestBody final UserRequest user) {
         return userService.userCreate(user);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Получение пользователя по id")
-    public User getUser(@RequestParam final int id) {
+    public UserResponse getUser(@PathVariable final int id) {
         return userService.getUserById(id);
     }
 
     @PatchMapping
     @Operation(summary = "Обновление пользователя")
-    public User updateUser(@RequestBody final User user) {
-        return userService.update(user);
+    public UserResponse updateUser(@RequestParam final long userId, @RequestBody final UserRequest user) {
+        return userService.update(userId,user);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление пользователя")
-    public void deleteUser(@RequestParam final int id) throws Exception {
-        throw new Exception("Привет");
-       // userService.delete(id);
+    public void deleteUser(@PathVariable final int id) throws Exception {
+        userService.delete(id);
     }
 }

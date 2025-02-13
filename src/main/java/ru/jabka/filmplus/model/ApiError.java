@@ -11,10 +11,10 @@ public class ApiError {
     }
 
     public boolean isSuccess() {
-        return success;
+        return this.success;
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 }
