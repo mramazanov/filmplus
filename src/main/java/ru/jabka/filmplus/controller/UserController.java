@@ -3,7 +3,8 @@ package ru.jabka.filmplus.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,17 +21,15 @@ import ru.jabka.filmplus.service.UserService;
 @RestController
 @RequestMapping("api/v1/user")
 @Tag(name = "Пользователи")
+@RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @PostMapping
     @Operation(summary = "Создать пользователя")
-    public UserResponse createUser(@RequestBody final UserRequest user) {
-        return userService.userCreate(user);
+    public UserResponse createUser(@RequestBody final UserRequest userRequest) {
+        return userService.userCreate(userRequest);
     }
 
     @GetMapping("/{id}")
@@ -41,13 +40,7 @@ public class UserController {
 
     @PatchMapping
     @Operation(summary = "Обновление пользователя")
-    public UserResponse updateUser(@RequestParam final long userId, @RequestBody final UserRequest user) {
-        return userService.update(userId,user);
-    }
-
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Удаление пользователя")
-    public void deleteUser(@PathVariable final int id) throws Exception {
-        userService.delete(id);
+    public UserResponse updateUser(@RequestParam final long userId, @RequestBody final UserRequest userRequest) {
+        return userService.update(userId, userRequest);
     }
 }

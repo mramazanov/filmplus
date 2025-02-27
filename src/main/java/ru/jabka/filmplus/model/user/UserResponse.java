@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Builder
 @Data
@@ -14,5 +13,4 @@ public class UserResponse {
     private String email;
     private String login;
     private LocalDate birthDay;
-    private Set<Long> friends;
 }

@@ -3,7 +3,8 @@ package ru.jabka.filmplus.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,18 +18,17 @@ import ru.jabka.filmplus.model.Genre;
 import ru.jabka.filmplus.model.film.FilmRequest;
 import ru.jabka.filmplus.model.film.FilmResponse;
 import ru.jabka.filmplus.service.FilmService;
-import java.util.Set;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/film")
 @Tag(name = "Фильмы")
+@RequiredArgsConstructor
 public class FilmController {
 
     private final FilmService filmService;
-
-    public FilmController(FilmService filmService) {
-        this.filmService = filmService;
-    }
 
     @PostMapping
     @Operation(summary = "Создать фильм")
@@ -48,19 +48,13 @@ public class FilmController {
         return filmService.update(filmId, film);
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Удаление фильма")
-    public void updateFilm(@PathVariable final Long id) {
-        filmService.delete(id);
-    }
-
     @GetMapping
     @Operation(summary = "Поиск фильмов")
-    public Set<FilmResponse> search(
+    public List<FilmResponse> searchFilm(
             @RequestParam(value = "name") final String name,
-            @RequestParam(value = "description", required = false) final String description,
-            @RequestParam(value = "genre", required = false) final Genre genre
+            @RequestParam(value = "description", required = false, defaultValue = "default") final String description,
+            @RequestParam final Optional<Genre> genre
     ) {
-        return filmService.search(name, description, genre);
+        return filmService.search(name, description, genre.orElse(Genre.EMPTY));
     }
 }
