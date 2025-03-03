@@ -12,8 +12,6 @@ import ru.jabka.filmplus.exception.BadRequestException;
 import ru.jabka.filmplus.model.friend.Friend;
 import ru.jabka.filmplus.repository.mapper.FriendMapper;
 
-import java.util.Objects;
-
 @Repository
 @RequiredArgsConstructor
 public class FriendRepository {
@@ -28,23 +26,20 @@ public class FriendRepository {
     private final FriendMapper friendMaper;
 
     public Friend insert(final Friend friend) {
-        if (Objects.equals(friend.getIdUser(), friend.getIdFriend())) {
-            throw new BadRequestException(String.format("Пользователь с id %d не может добавить самого себя", friend.getIdUser()));
-        }
         try {
             return jdbcTemplate.queryForObject(INSERT, friendToSql(friend), friendMaper);
         } catch (DuplicateKeyException e){
-            throw new BadRequestException(String.format("Пользователи с user_id = %d и friend_id = %d уже дружат", friend.getIdUser(), friend.getIdFriend()));
+            throw new BadRequestException(String.format("Пользователи с userId = %d и friendId = %d уже дружат", friend.getUserId(), friend.getFriendId()));
         } catch (DataIntegrityViolationException e){
-            throw new BadRequestException(String.format("Не удалось добавить дружбу, проверьте idUser = %d и idFriend = %d", friend.getIdUser(), friend.getIdFriend()));
+            throw new BadRequestException(String.format("Не удалось добавить дружбу, проверьте userId = %d и friendId = %d", friend.getUserId(), friend.getFriendId()));
         }
     }
 
     private MapSqlParameterSource friendToSql(final Friend friend){
         final MapSqlParameterSource params = new MapSqlParameterSource();
 
-        params.addValue("user_id", friend.getIdUser());
-        params.addValue("friend_id", friend.getIdFriend());
+        params.addValue("user_id", friend.getUserId());
+        params.addValue("friend_id", friend.getFriendId());
 
         return params;
     }

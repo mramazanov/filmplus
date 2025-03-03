@@ -31,11 +31,11 @@ public class ReviewRepository {
             return jdbcTemplate.queryForObject(INSERT, reviewToSql(reviewRequest), reviewMapper);
         } catch (DuplicateKeyException e) {
             throw new BadRequestException(
-                    String.format("Пользователь с user_id = %d уже оставил отзыв фильму с id = %d", reviewRequest.getIdUser(), reviewRequest.getIdFilm())
+                    String.format("Пользователь с userId = %d уже оставил отзыв фильму с id = %d", reviewRequest.getUserId(), reviewRequest.getFilmId())
             );
         } catch (DataIntegrityViolationException e) {
             throw new BadRequestException(
-                    String.format("Пользователь с user_id = %d или фильм с id = %d не найден", reviewRequest.getIdUser(), reviewRequest.getIdFilm())
+                    String.format("Пользователь с userId = %d или фильм с id = %d не найден", reviewRequest.getUserId(), reviewRequest.getFilmId())
             );
         }
     }
@@ -43,8 +43,8 @@ public class ReviewRepository {
     private MapSqlParameterSource reviewToSql(ReviewRequest reviewRequest) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
 
-        params.addValue("userid", reviewRequest.getIdUser());
-        params.addValue("movieid", reviewRequest.getIdFilm());
+        params.addValue("userid", reviewRequest.getUserId());
+        params.addValue("movieid", reviewRequest.getFilmId());
         params.addValue("reviewtext", reviewRequest.getReview());
 
         return params;

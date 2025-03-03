@@ -26,10 +26,10 @@ public class ReviewService {
         if (reviewRequest == null) {
             throw new BadRequestException("Введите информацию для отзыва");
         }
-        if (reviewRequest.getIdUser() == null) {
+        if (reviewRequest.getUserId() == null) {
             throw new BadRequestException("Введите id пользователя");
         }
-        if (reviewRequest.getIdFilm() == null) {
+        if (reviewRequest.getFilmId() == null) {
             throw new BadRequestException("Введите id фильма");
         }
     }

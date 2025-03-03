@@ -30,11 +30,11 @@ public class LikeRepository {
             return jdbcTemplate.queryForObject(INSERT, likeToSql(like), likeMaper);
         } catch (DuplicateKeyException e) {
             throw new BadRequestException(
-                    String.format("Пользователь с user_id = %d уже поставил лайк фильму с id = %d", like.getUserId(), like.getFilmId())
+                    String.format("Пользователь с userId = %d уже поставил лайк фильму с id = %d", like.getUserId(), like.getFilmId())
             );
         } catch (DataIntegrityViolationException e) {
             throw new BadRequestException(
-                    String.format("Пользователь с user_id = %d или фильм с id = %d не найден", like.getUserId(), like.getFilmId()));
+                    String.format("Пользователь с userId = %d или фильм с id = %d не найден", like.getUserId(), like.getFilmId()));
         }
     }
 

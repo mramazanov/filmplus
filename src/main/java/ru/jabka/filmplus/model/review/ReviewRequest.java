@@ -6,7 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class ReviewRequest {
-    private final Long idUser;
-    private final Long idFilm;
+    private final Long userId;
+    private final Long filmId;
     private final String review;
 }

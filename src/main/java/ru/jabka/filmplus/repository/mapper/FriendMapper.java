@@ -13,8 +13,8 @@ public class FriendMapper implements RowMapper<Friend> {
     @Override
     public Friend mapRow(ResultSet rs, int rowNum) throws SQLException {
         return Friend.builder()
-                .idUser(rs.getLong("user_id"))
-                .idFriend(rs.getLong("friend_id"))
+                .userId(rs.getLong("user_id"))
+                .friendId(rs.getLong("friend_id"))
                 .build();
     }
 }

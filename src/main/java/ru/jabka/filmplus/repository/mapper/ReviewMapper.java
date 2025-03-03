@@ -15,8 +15,8 @@ public class ReviewMapper implements RowMapper<ReviewResponse> {
     @Override
     public ReviewResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
         return ReviewResponse.builder()
-                .idUser(rs.getLong("user_id"))
-                .idFilm(rs.getLong("movie_id"))
+                .userId(rs.getLong("user_id"))
+                .userId(rs.getLong("movie_id"))
                 .review(rs.getString("review_text"))
                 .reviewDateTime(rs.getObject("created_at", Timestamp.class).toLocalDateTime())
                 .build();

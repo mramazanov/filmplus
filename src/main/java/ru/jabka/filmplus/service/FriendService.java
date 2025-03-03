@@ -9,6 +9,8 @@ import ru.jabka.filmplus.exception.BadRequestException;
 import ru.jabka.filmplus.model.friend.Friend;
 import ru.jabka.filmplus.repository.FriendRepository;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class FriendService {
@@ -25,10 +27,13 @@ public class FriendService {
         if (friendRequest == null) {
             throw new BadRequestException("Введите информацию для дружбы");
         }
-        if (friendRequest.getIdUser() == null || friendRequest.getIdUser() == 0) {
+        if (Objects.equals(friendRequest.getUserId(), friendRequest.getFriendId())) {
+            throw new BadRequestException(String.format("Пользователь с id = %d не может добавить сам себя", friendRequest.getUserId()));
+        }
+        if (friendRequest.getUserId() == null || friendRequest.getUserId() == 0) {
             throw new BadRequestException("Укажите id пользователя");
         }
-        if (friendRequest.getIdFriend() == null || friendRequest.getIdFriend() == 0) {
+        if (friendRequest.getFriendId() == null || friendRequest.getFriendId() == 0) {
             throw new BadRequestException("Укажите id друга");
         }
     }

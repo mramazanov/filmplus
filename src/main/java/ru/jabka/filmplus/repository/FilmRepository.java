@@ -24,8 +24,8 @@ public class FilmRepository {
             """;
 
     private static final String UPDATE = """
-            UPDATE filmplus.movie SET title=:title, description=:description, genre=:genre
-            WHERE id=:id
+            UPDATE filmplus.movie SET title =: title, description =: description, genre =: genre
+            WHERE id = :id
             RETURNING *;
             """;
 
@@ -39,7 +39,7 @@ public class FilmRepository {
     private static final String GET_BY_ID = """
             SELECT *
             FROM filmplus.movie
-            WHERE id=:id
+            WHERE id = :id
             """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -71,7 +71,7 @@ public class FilmRepository {
         final MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("id", filmId);
-        if(filmRequest != null) {
+        if (filmRequest != null) {
             params.addValue("title", filmRequest.getName());
             params.addValue("description", filmRequest.getDescription());
             params.addValue("releaseDate", filmRequest.getReleaseDate());

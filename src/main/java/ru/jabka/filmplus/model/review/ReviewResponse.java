@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 public class ReviewResponse {
-    private final Long idUser;
-    private final Long idFilm;
+    private final Long userId;
+    private final Long filmId;
     private final String review;
     private final LocalDateTime reviewDateTime;
 }

@@ -42,8 +42,8 @@ public class FriendServiceTest {
 
     private Friend buildFriend(Long idUser, Long idFriend) {
         return Friend.builder()
-                .idUser(idUser)
-                .idFriend(idFriend)
+                .userId(idUser)
+                .friendId(idFriend)
                 .build();
     }
 }

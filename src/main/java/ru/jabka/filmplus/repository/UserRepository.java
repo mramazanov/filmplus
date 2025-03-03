@@ -22,15 +22,15 @@ public class UserRepository {
             """;
 
     private static final String UPDATE = """
-            UPDATE filmplus.user SET name=:name, email=:email, login=:login, BIRTHDAY=:birthday
-            WHERE id=:id
+            UPDATE filmplus.user SET name = :name, email = :email, login = :login, BIRTHDAY = :birthday
+            WHERE id = :id
             RETURNING *;
             """;
 
     private static final String GET_BY_ID = """
             SELECT *
             FROM filmplus.user
-            WHERE id=:id
+            WHERE id = :id
             """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -51,15 +51,15 @@ public class UserRepository {
             throw new BadRequestException(String.format("Не удалось найти пользователя с id = %d", userId));
         }
     }
-    private MapSqlParameterSource userToSql(final Long userId, final UserRequest userrequest){
+    private MapSqlParameterSource userToSql(final Long userId, final UserRequest userRequest){
         final MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("id", userId);
-        if(userrequest != null){
-            params.addValue("name", userrequest.getName());
-            params.addValue("email", userrequest.getEmail());
-            params.addValue("login", userrequest.getLogin());
-            params.addValue("birthday", userrequest.getBirthDay());
+        if (userRequest != null) {
+            params.addValue("name", userRequest.getName());
+            params.addValue("email", userRequest.getEmail());
+            params.addValue("login", userRequest.getLogin());
+            params.addValue("birthday", userRequest.getBirthDay());
         }
         return params;
     }
