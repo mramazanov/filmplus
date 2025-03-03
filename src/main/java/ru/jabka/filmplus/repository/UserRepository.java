@@ -34,24 +34,25 @@ public class UserRepository {
             """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final UserMapper userMaper;
+    private final UserMapper userMapper;
 
     public UserResponse insert(final UserRequest userRequest) {
-        return jdbcTemplate.queryForObject(INSERT, userToSql(null, userRequest), userMaper);
+        return jdbcTemplate.queryForObject(INSERT, userToSql(null, userRequest), userMapper);
     }
 
     public UserResponse update(final Long userId, final UserRequest userRequest) {
-        return jdbcTemplate.queryForObject(UPDATE, userToSql(userId, userRequest), userMaper);
+        return jdbcTemplate.queryForObject(UPDATE, userToSql(userId, userRequest), userMapper);
     }
 
     public UserResponse getById(final Long userId) {
         try {
-            return jdbcTemplate.queryForObject(GET_BY_ID, userToSql(userId, null), userMaper);
+            return jdbcTemplate.queryForObject(GET_BY_ID, userToSql(userId, null), userMapper);
         } catch (Exception e) {
             throw new BadRequestException(String.format("Не удалось найти пользователя с id = %d", userId));
         }
     }
-    private MapSqlParameterSource userToSql(final Long userId, final UserRequest userRequest){
+
+    private MapSqlParameterSource userToSql(final Long userId, final UserRequest userRequest) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("id", userId);

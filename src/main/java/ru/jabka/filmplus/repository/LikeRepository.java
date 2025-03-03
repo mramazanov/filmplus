@@ -18,16 +18,16 @@ public class LikeRepository {
 
     private static final String INSERT = """
             INSERT INTO filmplus.like (user_id, movie_id)
-            VALUES (:user_id, :movie_id)
+            VALUES (:userId, :movieId)
             RETURNING *;
             """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final LikeMapper likeMaper;
+    private final LikeMapper likeMapper;
 
     public Like insert(final Like like) {
         try {
-            return jdbcTemplate.queryForObject(INSERT, likeToSql(like), likeMaper);
+            return jdbcTemplate.queryForObject(INSERT, likeToSql(like), likeMapper);
         } catch (DuplicateKeyException e) {
             throw new BadRequestException(
                     String.format("Пользователь с userId = %d уже поставил лайк фильму с id = %d", like.getUserId(), like.getFilmId())
@@ -38,11 +38,11 @@ public class LikeRepository {
         }
     }
 
-    private MapSqlParameterSource likeToSql(final Like like){
+    private MapSqlParameterSource likeToSql(final Like like) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
 
-        params.addValue("user_id", like.getUserId());
-        params.addValue("movie_id", like.getFilmId());
+        params.addValue("userId", like.getUserId());
+        params.addValue("movieId", like.getFilmId());
 
         return params;
     }

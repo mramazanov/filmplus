@@ -40,10 +40,10 @@ public class FriendServiceTest {
         Assertions.assertEquals("Укажите id пользователя", exception.getMessage());
     }
 
-    private Friend buildFriend(Long idUser, Long idFriend) {
+    private Friend buildFriend(Long userId, Long friendId) {
         return Friend.builder()
-                .userId(idUser)
-                .friendId(idFriend)
+                .userId(userId)
+                .friendId(friendId)
                 .build();
     }
 }

@@ -18,16 +18,16 @@ public class FriendRepository {
 
     private static final String INSERT = """
             INSERT INTO filmplus.friend(user_id, friend_id)
-            VALUES (:user_id, :friend_id)
+            VALUES (:userId, :friendId)
             RETURNING *;
             """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final FriendMapper friendMaper;
+    private final FriendMapper friendMapper;
 
     public Friend insert(final Friend friend) {
         try {
-            return jdbcTemplate.queryForObject(INSERT, friendToSql(friend), friendMaper);
+            return jdbcTemplate.queryForObject(INSERT, friendToSql(friend), friendMapper);
         } catch (DuplicateKeyException e){
             throw new BadRequestException(String.format("Пользователи с userId = %d и friendId = %d уже дружат", friend.getUserId(), friend.getFriendId()));
         } catch (DataIntegrityViolationException e){
@@ -35,11 +35,11 @@ public class FriendRepository {
         }
     }
 
-    private MapSqlParameterSource friendToSql(final Friend friend){
+    private MapSqlParameterSource friendToSql(final Friend friend) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
 
-        params.addValue("user_id", friend.getUserId());
-        params.addValue("friend_id", friend.getFriendId());
+        params.addValue("userId", friend.getUserId());
+        params.addValue("friendId", friend.getFriendId());
 
         return params;
     }

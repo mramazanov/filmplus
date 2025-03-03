@@ -67,7 +67,7 @@ public class FilmRepository {
         return jdbcTemplate.query(SEARCH, filmToSql(null, filmRequest), filmMapper);
     }
 
-    private MapSqlParameterSource filmToSql(final Long filmId, final FilmRequest filmRequest){
+    private MapSqlParameterSource filmToSql(final Long filmId, final FilmRequest filmRequest) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("id", filmId);

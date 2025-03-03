@@ -28,7 +28,7 @@ public class FilmServiceTest {
     private FilmService filmService;
 
     @Test
-    public void createfilm_valid(){
+    public void createFilm_valid(){
         FilmRequest filmRequest = buildFilmRequest("Matrix", "About NEO", LocalDate.of(2001, 4, 7), 143L, Genre.ACTION);
         FilmResponse filmResponse = buildFilmResponse(filmRequest);
         Mockito.when(filmRepository.insert(filmRequest)).thenReturn(filmResponse);
@@ -57,7 +57,7 @@ public class FilmServiceTest {
     }
 
     @Test
-    public void updatefilm_valid(){
+    public void updateFilm_valid(){
         FilmRequest filmRequest = buildFilmRequest("Matrix", "About NEO", LocalDate.of(2001, 4, 7), 143L, Genre.ACTION);
         FilmResponse filmResponse = buildFilmResponse(filmRequest);
         Mockito.when(filmRepository.update(1L, filmRequest)).thenReturn(filmResponse);

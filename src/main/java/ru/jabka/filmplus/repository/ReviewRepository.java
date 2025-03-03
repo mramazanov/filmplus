@@ -43,7 +43,7 @@ public class ReviewRepository {
     private MapSqlParameterSource reviewToSql(ReviewRequest reviewRequest) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
 
-        params.addValue("userid", reviewRequest.getUserId());
+        params.addValue("userId", reviewRequest.getUserId());
         params.addValue("movieid", reviewRequest.getFilmId());
         params.addValue("reviewtext", reviewRequest.getReview());
 

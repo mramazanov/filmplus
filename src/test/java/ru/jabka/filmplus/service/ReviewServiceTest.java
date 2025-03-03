@@ -48,17 +48,17 @@ public class ReviewServiceTest {
 
     private ReviewResponse buildReviewResponse(ReviewRequest reviewRequest, LocalDateTime reviewTime) {
         return ReviewResponse.builder()
-                .idUser(reviewRequest.getIdUser())
-                .idFilm(reviewRequest.getIdFilm())
+                .userId(reviewRequest.getUserId())
+                .filmId(reviewRequest.getFilmId())
                 .review(reviewRequest.getReview())
                 .reviewDateTime(reviewTime)
                 .build();
     }
 
-    private ReviewRequest buildReviewRequest(Long idUser, Long idFilm, String review) {
+    private ReviewRequest buildReviewRequest(Long userId, Long filmId, String review) {
         return ReviewRequest.builder()
-                .idUser(idUser)
-                .idFilm(idFilm)
+                .userId(userId)
+                .filmId(filmId)
                 .review(review)
                 .build();
     }
