@@ -3,72 +3,45 @@ package ru.jabka.filmplus.service;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import ru.jabka.filmplus.exception.BadRequestException;
 import ru.jabka.filmplus.model.Genre;
 import ru.jabka.filmplus.model.film.FilmRequest;
 import ru.jabka.filmplus.model.film.FilmResponse;
+import ru.jabka.filmplus.repository.FilmRepository;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class FilmService {
-    private static HashSet<FilmResponse> films = new HashSet<>();
-    public FilmResponse filmCreate(final FilmRequest film) {
-        validate(film);
-        FilmResponse filmResponse = FilmResponse.builder()
-                .id((long) films.size() + 1)
-                .name(film.getName())
-                .description(film.getDescription())
-                .releaseDate(film.getReleaseDate())
-                .duration(film.getDuration())
-                .genres(film.getGenre())
-                .reviews(new ArrayList<>())
-                .build();
 
-        films.add(filmResponse);
-        return filmResponse;
+    private final FilmRepository filmRepository;
+
+    @Transactional(rollbackFor = Exception.class)
+    public FilmResponse filmCreate(final FilmRequest filmRequest) {
+        validate(filmRequest);
+        return filmRepository.insert(filmRequest);
     }
 
+    @Transactional(readOnly = true)
     public FilmResponse getFilmByid(Long id) {
-        return films.stream()
-                .filter(f -> Objects.equals(f.getId(), id))
-                .findFirst()
-                .orElseThrow(() -> new BadRequestException(String.format("Не удалось найти фильм по id = %d", id)));
+        return filmRepository.getById(id);
     }
 
-    public FilmResponse update(final long filmId, final FilmRequest film) {
-        validate(film);
-
-        FilmResponse foundFilm = getFilmByid(filmId);
-        foundFilm.setDescription(film.getDescription());
-        foundFilm.setName(film.getName());
-        foundFilm.setGenres(film.getGenre());
-        foundFilm.setDuration(film.getDuration());
-        foundFilm.setReleaseDate(film.getReleaseDate());
-
-        return foundFilm;
+    @Transactional(rollbackFor = Exception.class)
+    public FilmResponse update(final long filmId, final FilmRequest filmRequest) {
+        validate(filmRequest);
+        return filmRepository.update(filmId, filmRequest);
     }
 
-    public void delete(final long id) {
-        FilmResponse foundFilm = getFilmByid(id);
-        films.remove(foundFilm);
+    @Transactional(readOnly = true)
+    public List<FilmResponse> search(final String name, final String description, final Genre genre) {
+        return filmRepository.search(name, description, genre);
     }
 
-    public Set<FilmResponse> search(final String name, final String description, final Genre genre) {
-        return films.stream().filter(
-                f -> f.getName().contains(name)
-                        || ((description != null) && f.getDescription().contains(description))
-                        || f.getGenres().equals(genre)
-        ).collect(Collectors.toSet());
-    }
-    
     private void validate(FilmRequest filmRequest) {
         if (filmRequest == null) {
             throw new BadRequestException("Введите информацию о фильме");
